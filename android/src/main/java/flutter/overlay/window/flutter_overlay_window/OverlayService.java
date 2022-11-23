@@ -418,8 +418,8 @@ public class OverlayService extends Service implements View.OnTouchListener {
 
                     closeSection.setVisibility(View.GONE);
 
-
-                    if (lastY <= h && lastY >= (h - 200) && ((w/2) - 100) < lastX && ((w/2) + 100) > lastX  ) {
+//&& ((w/2) - 100) < lastX && ((w/2) + 100) > lastX
+                    if (lastY <= h && lastY >= (h - 200)) {
 
                         if (OverlayService.isRunning) {
                             Log.i(TAG, "onTouch:ACTION_UP (" + lastX + " , " + lastY + ")");
