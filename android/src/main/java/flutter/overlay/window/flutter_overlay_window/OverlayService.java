@@ -400,8 +400,24 @@ public class OverlayService extends Service implements View.OnTouchListener {
                     lastY = event.getRawY();
                     int xx = params.x + (int) dx;
                     int yy = params.y + (int) dy;
+                    double h2 = h/2;
 
-                    Log.i(TAG, "onTouch: last : ( " + lastX + "," + lastY + "  ) flutterView: ( " + xx + "," + yy + " )");
+                    Log.i(TAG, "onTouch: last : ( " + lastX + "," + lastY + "  )  flutterView: ( " + xx + "," + yy + " )");
+
+                    int width = params.width;
+                    int height = params.height;
+               
+                      if(lastX + width >= w){
+                          xx = (int) (w - width);
+                      }
+                        if(lastX <= 0){
+                            xx = 0;
+                        }
+                        if(lastY < 100){
+                             lastY=100;
+                             yy = (int) -h2; 
+                        }
+
                     params.x = xx;
                     params.y = yy;
                     windowManager.updateViewLayout(flutterView, params);
@@ -419,14 +435,14 @@ public class OverlayService extends Service implements View.OnTouchListener {
                     closeSection.setVisibility(View.GONE);
 
 //&& ((w/2) - 100) < lastX && ((w/2) + 100) > lastX
-                    if (lastY <= h && lastY >= (h - 200)) {
+                    if ( lastY >= (h - 200)) {   //lastY <= h &&
+
 
                         if (OverlayService.isRunning) {
                             Log.i(TAG, "onTouch:ACTION_UP (" + lastX + " , " + lastY + ")");
                             final Intent i = new Intent(getApplicationContext(), OverlayService.class);
                             i.putExtra(OverlayService.INTENT_EXTRA_IS_CLOSE_WINDOW, true);
                             getApplicationContext().startService(i);
-
                         }
                     } else {
                         if (OverlayService.isRunning && WindowSetup.positionGravity != "none") {
